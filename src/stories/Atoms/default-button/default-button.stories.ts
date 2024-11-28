@@ -4,6 +4,7 @@ import { html } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import { themeKeys } from './default-button';
 import { repeat } from 'lit/directives/repeat.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 const meta: Meta = {
 	title: 'BCL/Atoms/default-button',
@@ -37,8 +38,8 @@ const renderButton = (args) => {
 		label=${args.label}
 		variant=${args.variant}
 		size=${args.size}
-		color-theme=${args.colorTheme}
 		?disabled=${args.disabled}
+		color-theme=${ifDefined(args.colorTheme ? args.colorTheme : undefined)}
 	></default-button>`;
 };
 
@@ -88,6 +89,13 @@ export const Disabled: Story = {
 };
 
 export const SemanticThemes: Story = {
+	argTypes: {
+		colorTheme: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 	render: (args) => {
 		return html`
 			<div>
