@@ -87,6 +87,10 @@ export class Alert extends LitElement {
 			padding: 0 26px 8px 12px;
 			font-weight: 400;
 		}
+
+		.close-button {
+			cursor: pointer;
+		}
 	`;
 
 	_onDismiss() {
@@ -96,7 +100,6 @@ export class Alert extends LitElement {
 				composed: true,
 			})
 		);
-		this.remove();
 	}
 
 	render() {

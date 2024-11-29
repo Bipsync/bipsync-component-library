@@ -3,7 +3,6 @@ import './alert';
 import { html } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import { variantKeys } from './alert';
-import { repeat } from 'lit/directives/repeat.js';
 import { expect, fn, userEvent, waitFor, within } from '@storybook/test';
 import { withinShadowRoot } from '../../../utils/test.util';
 
@@ -17,10 +16,10 @@ const meta: Meta = {
 	},
 	args: { onDismiss: fn() },
 	decorators: [withActions],
-	parameters: {
-		actions: {
-			handles: ['alert-dismissed'],
-		},
+	beforeEach: ({ args, canvasElement }) => {
+		canvasElement.addEventListener('alert-dismissed', (e) =>
+			args.onDismiss(e)
+		);
 	},
 	render: (args) => {
 		return html` ${renderAlert(args)} `;
@@ -91,7 +90,12 @@ export const Sizing: Story = {
 	},
 };
 
-export const DismissAlert: Story = {
+export const DismissAlertTest: Story = {
+	args: {
+		variant: 'success',
+		title: 'Dismissable Alert',
+		dismissable: true,
+	},
 	play: async ({ canvasElement, args }) => {
 		// Arrange
 		const canvas = within(canvasElement);
@@ -111,12 +115,6 @@ export const DismissAlert: Story = {
 		);
 
 		// Assert
-		await expect(canvas.queryByTestId('alert')).not.toBeInTheDocument();
-		await waitFor(() => expect(args.onDismiss).toHaveBeenCalled());
-	},
-	args: {
-		variant: 'success',
-		title: 'Dismissable Alert',
-		dismissable: true,
+		await expect(args.onDismiss).toHaveBeenCalled();
 	},
 };

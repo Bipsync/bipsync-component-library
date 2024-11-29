@@ -19,7 +19,7 @@ run storybook on localhost port `6006` (with Vite + hot module reloading)
 npm run storybook
 ```
 
-run unit test runner locally
+run unit test runner in terminal (storybook must be running on localhost for this to work)
 
 ```sh
 npm run test-storybook
